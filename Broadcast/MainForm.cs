@@ -1,0 +1,44 @@
+using Microsoft.Extensions.Configuration;
+using PluginBase;
+using System.Configuration;
+using System.Diagnostics;
+
+namespace Broadcast
+{
+    public partial class MainForm : Form
+    {
+        public MainForm(IConfigurationRoot Configuration )
+        {
+            InitializeComponent();
+
+            Debug.WriteLine($"Loading plugins from {Configuration["plugins"]}");
+
+            string[] pluginPaths = Directory.GetFiles(Configuration["plugins"] ?? "./plugins", "*.dll");
+            foreach( var control in Program.ReadDlls(pluginPaths, Configuration))
+            {
+                Debug.WriteLine($"Adding control {control.Name}");
+                flowLayoutPanel1.Controls.Add(control);
+                control.Click += PluginControl_Click;
+                control.DataRecieved += PluginControl_DataReceived;
+            }
+
+            Debug.WriteLine($"Found {pluginPaths.Length} plugins.");
+        }
+
+        private void PluginControl_DataReceived(object? sender, EventArgs e)
+        {
+            if (sender is PluginControl c)
+            {
+                Debug.WriteLine($"Data Recieved from {c.Name}");
+            }
+        }
+
+        private void PluginControl_Click(object? sender, EventArgs e)
+        {
+            if (sender is PluginControl c)
+            {
+                Debug.WriteLine($"Mouse Click from {c.Name}");
+            }
+        }
+    }
+}
