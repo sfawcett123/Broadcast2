@@ -1,9 +1,9 @@
 ﻿{
   "plugins": "..\\..\\..\\..\\TestPlugin\\bin\\Debug\\net8.0-windows",
-  "TestPlugin": {
+  "Test": {
     "url": "http://google.com"
   },
-  "RedisPlugin": {
+  "Redis": {
     "server": "controller.local",
     "port": 6379,
     "sample":  1000

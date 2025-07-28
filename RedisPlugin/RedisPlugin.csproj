@@ -6,7 +6,7 @@
     <Nullable>enable</Nullable>
     <BaseOutputPath>C:\Users\steve\source\repos\sfawcett123\Broadcast2\Broadcast\TestPlugin\bin</BaseOutputPath>
   </PropertyGroup>
-
+	
 	<ItemGroup>
 		<ProjectReference Include="..\PluginBase\PluginBase.csproj">
 			<Private>false</Private>
@@ -20,11 +20,14 @@
 	    <AutoGen>True</AutoGen>
 	    <DependentUpon>Resources.resx</DependentUpon>
 	  </Compile>
+	  <Compile Update="RedisInfo.cs">
+	    <SubType>UserControl</SubType>
+	  </Compile>
 	</ItemGroup>
 
 	<ItemGroup>
 	  <EmbeddedResource Update="Properties\Resources.resx">
-	    <Generator>ResXFileCodeGenerator</Generator>
+	    <Generator>PublicResXFileCodeGenerator</Generator>
 	    <LastGenOutput>Resources.Designer.cs</LastGenOutput>
 	  </EmbeddedResource>
 	</ItemGroup>

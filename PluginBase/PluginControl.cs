@@ -10,7 +10,7 @@ namespace PluginBase
         private string _description = "Plugin to read and write to a redis cache";
         private System.Drawing.Image _icon = Properties.Resources.initial;      
 
-        public PluginControl( string stanza)
+        public PluginControl( string stanza = "" )
         {
             InitializeComponent();
 
@@ -23,6 +23,7 @@ namespace PluginBase
             BackColor = Color.Red;
             BackgroundImageLayout = ImageLayout.Stretch;
             Size = new Size(100, 100);
+            InfoPage = new InfoPage();
         }
 
         #region Interface Implementation
@@ -50,12 +51,13 @@ namespace PluginBase
                                     set { _description = value; }
                                   }
         public string Stanza { get; } 
-        
+        public virtual UserControl? InfoPage { get; protected set; }    
         public virtual IConfigurationSection? Configuration
         {
             get => throw new NotImplementedException("Configuration property not implemented in base class.");
             set => throw new NotImplementedException("Configuration property not implemented in base class.");
         }
+        #endregion
 
         public event EventHandler? DataRecieved;
 
@@ -63,6 +65,6 @@ namespace PluginBase
         {
             DataRecieved?.Invoke(this, e);
         }
-        #endregion
+      
     }
 }

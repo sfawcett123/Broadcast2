@@ -1,6 +1,8 @@
 ﻿using Microsoft.Extensions.Configuration;
 using System.Configuration;
 using System.Diagnostics;
+using System.Security.Policy;
+using System.Windows.Forms;
 
 namespace RedisPlugin
 {
@@ -10,6 +12,8 @@ namespace RedisPlugin
         const string STANZA = "Redis";
         const int DEFAULT_SAMPLE_RATE = 2000;
 
+        private readonly RedisInfo? RedisInfoPage = new RedisInfo();
+        public override UserControl? InfoPage { get => RedisInfoPage; }
         #region Private Attributes
         private int SamplingRate { get; set; } = DEFAULT_SAMPLE_RATE; // Default sampling rate
         private System.Timers.Timer? aTimer;
@@ -32,7 +36,12 @@ namespace RedisPlugin
                 SamplingRate = int.Parse(_configuration["sample"] ?? DEFAULT_SAMPLE_RATE.ToString());
                 Debug.WriteLine($"Setting configuration for {Name} with sampling rate: {SamplingRate} ms");
                 int oldSamplingRate = SamplingRate;
-                
+             
+                string server = _configuration["server"] ?? "localhost";
+                string port = _configuration["port"] ?? "6379";
+
+                if(RedisInfoPage is not null ) RedisInfoPage.Url=  $"redis://{server}:{port}" ;
+
                 if (oldSamplingRate != SamplingRate)
                 {
                     // If the sampling rate has changed, reset the timer.
@@ -44,7 +53,7 @@ namespace RedisPlugin
         public RedisPlugin() : base(STANZA)
         {
             Name = PLUGINNAME;
-            Description = "A plugin for testing purposes.";
+            Description = "Connect to a REDIS Cache.";
             Icon = Properties.Resources.red;
             SetTimer();
         }

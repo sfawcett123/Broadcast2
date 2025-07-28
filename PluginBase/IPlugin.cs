@@ -13,6 +13,8 @@ namespace PluginBase
         string Stanza { get;}
         System.Drawing.Image Icon { get; set; }
         IConfigurationSection? Configuration { get; set; }
+        UserControl? InfoPage { get; }
+
         public event EventHandler DataRecieved;
     }
 }

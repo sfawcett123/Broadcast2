@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using System.Diagnostics;
+using System.Windows.Forms;
 
 namespace TestPlugin
 {
@@ -8,9 +9,11 @@ namespace TestPlugin
         #region Constants
         const string PLUGINNAME = "TestPlugin";
         const string STANZA = "Test";
+        private readonly UserControl? RedisInfoPage = new TestInfo();
         #endregion
 
         #region IPLUGIN Overrides
+        public override UserControl? InfoPage { get => RedisInfoPage;  }
         public override IConfigurationSection? Configuration { get; set; }
         #endregion
 
@@ -20,6 +23,7 @@ namespace TestPlugin
             Name = PLUGINNAME;
             Description = "A plugin for testing purposes.";
             //Icon = Properties.Resources.red;
+
         }
         #endregion
 

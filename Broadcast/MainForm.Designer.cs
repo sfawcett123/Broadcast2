@@ -32,6 +32,7 @@
             flowLayoutPanel1 = new FlowLayoutPanel();
             statusStrip = new StatusStrip();
             toolStripStatusLabel = new ToolStripStatusLabel();
+            panel = new Panel();
             statusStrip.SuspendLayout();
             SuspendLayout();
             // 
@@ -59,11 +60,19 @@
             toolStripStatusLabel.Text = "toolStripStatusLabel";
             toolStripStatusLabel.TextAlign = ContentAlignment.MiddleLeft;
             // 
+            // panel
+            // 
+            panel.Location = new Point(134, 11);
+            panel.Name = "panel";
+            panel.Size = new Size(595, 449);
+            panel.TabIndex = 2;
+            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(732, 489);
+            Controls.Add(panel);
             Controls.Add(statusStrip);
             Controls.Add(flowLayoutPanel1);
             Icon = (Icon)resources.GetObject("$this.Icon");
@@ -80,5 +89,6 @@
         private FlowLayoutPanel flowLayoutPanel1;
         private StatusStrip statusStrip;
         private ToolStripStatusLabel toolStripStatusLabel;
+        private Panel panel;
     }
 }

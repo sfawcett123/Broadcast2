@@ -1,8 +1,6 @@
 using Microsoft.Extensions.Configuration;
 using PluginBase;
-using System.Configuration;
 using System.Diagnostics;
-using System.Windows.Forms;
 
 namespace Broadcast
 {
@@ -40,7 +38,9 @@ namespace Broadcast
         {
             if (sender is PluginControl c)
             {
-                Debug.WriteLine($"Mouse Click from {c.Name}");
+                panel.Controls.Clear();
+                panel.Controls.Add(c.InfoPage ?? new UserControl());
+                panel.Size = c.InfoPage?.Size ?? new Size(300, 300);
             }
         }
     }

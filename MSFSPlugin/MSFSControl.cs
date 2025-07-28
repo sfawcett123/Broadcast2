@@ -13,7 +13,7 @@ namespace MSFSPlugin
         {
             InitializeComponent();
             Name = PLUGINNAME;
-            Description = "A plugin for testing purposes.";
+            Description = "Connect to Microsoft Flight Simulator 2024.";
             Icon = Properties.Resources.red;
         }
     }
