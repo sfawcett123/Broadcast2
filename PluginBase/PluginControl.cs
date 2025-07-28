@@ -8,7 +8,7 @@ namespace PluginBase
         private readonly ToolTip pluginToolTip = new();
         private string _name = "TestPlugin";
         private string _description = "Plugin to read and write to a redis cache";
-        private System.Drawing.Image _icon = Properties.Resources.initial;      
+        private Image _icon = Properties.Resources.initial;      
 
         public PluginControl( string stanza = "" )
         {
@@ -59,9 +59,8 @@ namespace PluginBase
         }
         #endregion
 
-        public event EventHandler? DataRecieved;
-
-        protected virtual void OnDataRecieved(EventArgs e)
+        public event EventHandler<PluginEventArgs>? DataRecieved;
+        protected virtual void OnDataRecieved(PluginEventArgs e)
         {
             DataRecieved?.Invoke(this, e);
         }

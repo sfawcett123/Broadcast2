@@ -27,11 +27,11 @@ namespace Broadcast
 
             toolStripStatusLabel.Text = $"Loaded {pluginPaths.Length} plugins.";
         }
-        private void PluginControl_DataReceived(object? sender, EventArgs e)
+        private void PluginControl_DataReceived(object? sender, PluginEventArgs e)
         {
             if (sender is PluginControl c)
             {
-                Debug.WriteLine($"Data Recieved from {c.Name}");
+               if( e.Icon is not null ) c.Icon = e.Icon;
             }
         }
         private void PluginControl_Click(object? sender, EventArgs e)

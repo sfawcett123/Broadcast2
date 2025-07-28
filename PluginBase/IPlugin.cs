@@ -4,6 +4,7 @@ namespace PluginBase
 {
     public class PluginEventArgs
     {
+        public Image? Icon = null ;
         public string Name { get; set; } = string.Empty;
     }
     public  interface IPlugin
@@ -15,6 +16,6 @@ namespace PluginBase
         IConfigurationSection? Configuration { get; set; }
         UserControl? InfoPage { get; }
 
-        public event EventHandler DataRecieved;
+        public event EventHandler<PluginEventArgs> DataRecieved;
     }
 }
