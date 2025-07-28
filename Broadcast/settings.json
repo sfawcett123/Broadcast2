@@ -5,6 +5,7 @@
   },
   "RedisPlugin": {
     "server": "controller.local",
-    "port":  6379
+    "port": 6379,
+    "sample":  1000
   }
 }

@@ -1,20 +1,28 @@
 ﻿using Microsoft.Extensions.Configuration;
+using System.Diagnostics;
 
 namespace PluginBase
 {
     public partial class PluginControl : UserControl, IPlugin
     {
-        private readonly ToolTip toolTip1 = new();
+        private readonly ToolTip pluginToolTip = new();
         private string _name = "TestPlugin";
-        private string _stanza = "Plugins";
+        private string _description = "Plugin to read and write to a redis cache";
+        private System.Drawing.Image _icon = Properties.Resources.initial;      
 
-        public PluginControl()
+        public PluginControl( string stanza)
         {
             InitializeComponent();
-            toolTip1.ShowAlways = true;
-            toolTip1.SetToolTip(this, "No value set");
-            this.BackColor = Color.LightGray;
+
+            Stanza = stanza;
+
+            pluginToolTip.ShowAlways = true;
+            pluginToolTip.SetToolTip(this, "No value set");
+            Icon = Properties.Resources.initial;
+            BackgroundImage = Icon;
+            BackColor = Color.Red;
             BackgroundImageLayout = ImageLayout.Stretch;
+            Size = new Size(100, 100);
         }
 
         #region Interface Implementation
@@ -22,22 +30,31 @@ namespace PluginBase
         {
             set
             {
-                toolTip1.SetToolTip(this, value);
+                pluginToolTip.SetToolTip(this, value);
                 _name = value;
             }
             get { return _name; }
         }
 
-        public virtual string Description => throw new NotImplementedException();
+        public System.Drawing.Image Icon { 
+            set { _icon = value;
+                Size = new Size(100, 100);
+                BackgroundImage = value;
+                BackgroundImageLayout = ImageLayout.Stretch;
+                 
+            }
+            get { return _icon; }
+        }
 
+        public string Description { get { return _description; }
+                                    set { _description = value; }
+                                  }
+        public string Stanza { get; } 
+        
         public virtual IConfigurationSection? Configuration
         {
-            get => throw new NotImplementedException();
-            set => throw new NotImplementedException();
-        }
-        public string Stanza { 
-            get { return _stanza; }
-            set { _stanza = value; } 
+            get => throw new NotImplementedException("Configuration property not implemented in base class.");
+            set => throw new NotImplementedException("Configuration property not implemented in base class.");
         }
 
         public event EventHandler? DataRecieved;

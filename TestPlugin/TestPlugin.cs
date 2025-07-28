@@ -1,42 +1,28 @@
 ﻿using Microsoft.Extensions.Configuration;
-using PluginBase;
 using System.Diagnostics;
-using System.Drawing;
-using System.Threading;
-using System.Timers;
-using System.Windows.Forms;
 
 namespace TestPlugin
 {
     public class TestPlugin : PluginBase.PluginControl
     {
-        public override string Description => "A plugin for testing purposes.";
+        #region Constants
+        const string PLUGINNAME = "TestPlugin";
+        const string STANZA = "Test";
+        #endregion
+
+        #region IPLUGIN Overrides
         public override IConfigurationSection? Configuration { get; set; }
+        #endregion
 
-        private System.Timers.Timer? aTimer;
-
-        private void SetTimer()
+        #region Constructors
+        public TestPlugin() :base(STANZA)
         {
-            // Create a timer with a two second interval.
-            aTimer = new System.Timers.Timer(2000);
-            // Hook up the Elapsed event for the timer. 
-            aTimer.Elapsed += OnTimedEvent ;
-            aTimer.AutoReset = true;
-            aTimer.Enabled = true;
+            Name = PLUGINNAME;
+            Description = "A plugin for testing purposes.";
+            //Icon = Properties.Resources.red;
         }
+        #endregion
 
-        public TestPlugin()
-        {
-            Name = "Test Plugin";
-            Stanza = "TestPlugin";
-            BackgroundImage = Properties.Resources.red;
-            SetTimer();
-        }
 
-        private void OnTimedEvent(object source, EventArgs e)
-        {
-            // So when the timer ticks we will send some test data
-            OnDataRecieved( e );
-        }
     }
 }

@@ -26,7 +26,6 @@ namespace Broadcast
             ApplicationConfiguration.Initialize();
             Application.Run(new MainForm( Configuration ));
         }
-
         static public IEnumerable<PluginControl> ReadDlls(string[] pluginPaths, IConfigurationRoot Configuration)
         {
             List<PluginControl> commands = [];
@@ -55,15 +54,12 @@ namespace Broadcast
             PluginLoadContext loadContext = new(relativePath);
             return loadContext.LoadFromAssemblyName(AssemblyName.GetAssemblyName(relativePath));
         }
-
         static List<PluginControl> CreateCommands(Assembly assembly)
         {
             List<PluginControl> commands = [];
 
             foreach (Type type in assembly.GetTypes())
             {
-                Debug.WriteLine($"Checking type: {type.FullName} => {typeof(IPlugin).IsAssignableFrom(type)}");
-
                 if (typeof(IPlugin).IsAssignableFrom(type) && !type.IsInterface && !type.IsAbstract)
                 {
                     Debug.WriteLine($"Found type: {type.FullName} which implements IPlugin");
@@ -84,7 +80,7 @@ namespace Broadcast
             {
                 string availableTypes = string.Join(",", assembly.GetTypes().Select(t => t.FullName));
                 Debug.WriteLine(
-                    $"Can't find any type which implements IBroadcast in {assembly} from {assembly.Location}.\n" +
+                    $"Can't find any type which implements IPlugin in {assembly} from {assembly.Location}.\n" +
                     $"Available types: {availableTypes}");
             }
 

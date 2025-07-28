@@ -10,9 +10,9 @@ namespace PluginBase
     {
         string Name { get; }
         string Description { get; }
-        string Stanza { get; set; }
+        string Stanza { get;}
+        System.Drawing.Image Icon { get; set; }
         IConfigurationSection? Configuration { get; set; }
-
         public event EventHandler DataRecieved;
     }
 }

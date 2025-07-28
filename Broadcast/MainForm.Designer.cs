@@ -28,29 +28,57 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             flowLayoutPanel1 = new FlowLayoutPanel();
+            statusStrip = new StatusStrip();
+            toolStripStatusLabel = new ToolStripStatusLabel();
+            statusStrip.SuspendLayout();
             SuspendLayout();
             // 
             // flowLayoutPanel1
             // 
             flowLayoutPanel1.Location = new Point(7, 8);
             flowLayoutPanel1.Name = "flowLayoutPanel1";
-            flowLayoutPanel1.Size = new Size(265, 721);
+            flowLayoutPanel1.Size = new Size(111, 452);
             flowLayoutPanel1.TabIndex = 0;
             // 
-            // Form1
+            // statusStrip
+            // 
+            statusStrip.AllowDrop = true;
+            statusStrip.Items.AddRange(new ToolStripItem[] { toolStripStatusLabel });
+            statusStrip.Location = new Point(0, 467);
+            statusStrip.Name = "statusStrip";
+            statusStrip.Size = new Size(732, 22);
+            statusStrip.TabIndex = 1;
+            statusStrip.Text = "statusStrip";
+            // 
+            // toolStripStatusLabel
+            // 
+            toolStripStatusLabel.Name = "toolStripStatusLabel";
+            toolStripStatusLabel.Size = new Size(112, 17);
+            toolStripStatusLabel.Text = "toolStripStatusLabel";
+            toolStripStatusLabel.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(984, 728);
+            ClientSize = new Size(732, 489);
+            Controls.Add(statusStrip);
             Controls.Add(flowLayoutPanel1);
-            Name = "Form1";
-            Text = "Form1";
+            Icon = (Icon)resources.GetObject("$this.Icon");
+            Name = "MainForm";
+            Text = "Simulator Broadcast";
+            statusStrip.ResumeLayout(false);
+            statusStrip.PerformLayout();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
 
         private FlowLayoutPanel flowLayoutPanel1;
+        private StatusStrip statusStrip;
+        private ToolStripStatusLabel toolStripStatusLabel;
     }
 }
