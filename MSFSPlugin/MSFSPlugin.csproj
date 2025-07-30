@@ -6,6 +6,7 @@
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
 	  <BaseOutputPath>C:\Users\steve\source\repos\sfawcett123\Broadcast2\Broadcast\Broadcast\bin</BaseOutputPath>
+	  <Platforms>AnyCPU;x64;x86</Platforms>
   </PropertyGroup>
 
   <ItemGroup>

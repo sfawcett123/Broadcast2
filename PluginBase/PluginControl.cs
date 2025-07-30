@@ -54,8 +54,14 @@ namespace PluginBase
         public virtual UserControl? InfoPage { get; protected set; }    
         public virtual IConfigurationSection? Configuration
         {
-            get => throw new NotImplementedException("Configuration property not implemented in base class.");
-            set => throw new NotImplementedException("Configuration property not implemented in base class.");
+            get {
+                Debug.WriteLine("Configuration property set in base class, but not implemented.");
+                return null;
+            }
+
+            set {
+                Debug.WriteLine("Configuration property set in base class, but not implemented.");
+            }
         }
         #endregion
 

@@ -38,19 +38,28 @@ namespace Broadcast
             foreach (string relativePath in pluginPaths)
             {
                 Assembly assembly = LoadPlugin(relativePath);
-
-                commands.AddRange(CreateCommands(assembly));
-                foreach (IPlugin command in commands)
+                if (assembly != null)
                 {
-                    command.Configuration = Configuration.GetSection(command.Stanza);
+                    commands.AddRange(CreateCommands(assembly));
+                    foreach (IPlugin command in commands)
+                    {
+                        command.Configuration = Configuration.GetSection(command.Stanza);
+                    }
                 }
             }
             return commands;
         }
         static Assembly LoadPlugin(string relativePath)
-        { 
-            PluginLoadContext loadContext = new(relativePath);
-            return loadContext.LoadFromAssemblyName(AssemblyName.GetAssemblyName(relativePath));
+        {
+            try { 
+                PluginLoadContext loadContext = new(relativePath);
+                return loadContext.LoadFromAssemblyName(AssemblyName.GetAssemblyName(relativePath));
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error loading plugin {relativePath}: {ex.Message}");
+                return null!;
+            }
         }
         static List<PluginControl> CreateCommands(Assembly assembly)
         {

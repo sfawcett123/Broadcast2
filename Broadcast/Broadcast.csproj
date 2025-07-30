@@ -6,6 +6,7 @@
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
+    <Platforms>AnyCPU;x86;x64</Platforms>
   </PropertyGroup>
 
   <ItemGroup>
@@ -32,10 +33,17 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\SimListener\SimListener\SimListener.csproj" />
     <ProjectReference Include="..\MSFSPlugin\MSFSPlugin.csproj" />
     <ProjectReference Include="..\PluginBase\PluginBase.csproj" />
     <ProjectReference Include="..\RedisPlugin\RedisPlugin.csproj" />
     <ProjectReference Include="..\TestPlugin\TestPlugin.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="SimConnect.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>
