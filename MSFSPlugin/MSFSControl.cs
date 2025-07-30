@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using PluginBase;
+using System.Globalization;
 
 namespace MSFSPlugin
 {
@@ -7,6 +8,8 @@ namespace MSFSPlugin
     {
         const string PLUGINNAME = "MSFSPlugin";
         const string STANZA = "MSFS";
+        private readonly UserControl? MSFSInfoPage = new MSFSInfo();
+        public override UserControl? InfoPage { get => MSFSInfoPage; }
         public override IConfigurationSection? Configuration { get; set; }
 
         public MSFSControl() : base(STANZA)

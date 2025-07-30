@@ -39,7 +39,7 @@
             pictureBox1.InitialImage = Properties.Resources.initial;
             pictureBox1.Location = new Point(16, 12);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(289, 366);
+            pictureBox1.Size = new Size(270, 270);
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox1.TabIndex = 0;
             pictureBox1.TabStop = false;
@@ -49,10 +49,10 @@
             textBox1.BackColor = SystemColors.Control;
             textBox1.BorderStyle = BorderStyle.None;
             textBox1.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBox1.Location = new Point(319, 16);
+            textBox1.Location = new Point(16, 299);
             textBox1.Name = "textBox1";
             textBox1.ReadOnly = true;
-            textBox1.Size = new Size(288, 26);
+            textBox1.Size = new Size(270, 26);
             textBox1.TabIndex = 1;
             textBox1.Text = "Base Control Info Page";
             textBox1.TextAlign = HorizontalAlignment.Center;
@@ -64,7 +64,7 @@
             Controls.Add(textBox1);
             Controls.Add(pictureBox1);
             Name = "InfoPage";
-            Size = new Size(614, 396);
+            Size = new Size(302, 343);
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
             PerformLayout();
