@@ -23,7 +23,11 @@ namespace RedisPlugin
         private Connection? _connection = null;
         #region Private Attributes
         private int SamplingRate { get; set; } = DEFAULT_SAMPLE_RATE; // Default sampling rate
-        private System.Timers.Timer? aTimer;
+        private int Port { get; set; } = DEFAULT_PORT;
+        private string Server { get; set; } = DEFAULT_SERVER;
+
+
+        private static System.Timers.Timer? aTimer = null ;
         private IConfigurationSection? _configuration;
         #endregion
 
@@ -34,39 +38,46 @@ namespace RedisPlugin
             {
                 if (value == null)
                 {
-                    SamplingRate = DEFAULT_SAMPLE_RATE; // Default value
                     Debug.WriteLine($"Setting configuration to Defaults");
+                    this.SamplingRate = DEFAULT_SAMPLE_RATE; // Default value
+                    this.Port = DEFAULT_PORT;
+                    this.Server = DEFAULT_SERVER;
                     return;
                 }
 
                 _configuration = value;
-                int oldSamplingRate = SamplingRate;
-                string oldServer = _configuration["server"] ?? DEFAULT_SERVER;
-                string oldPort = _configuration["port"] ?? DEFAULT_PORT.ToString();
 
-                SamplingRate = int.Parse(_configuration["sample"] ?? DEFAULT_SAMPLE_RATE.ToString());
-                Debug.WriteLine($"Setting configuration for {Name} with sampling rate: {SamplingRate} ms");
-                
-                string server = _configuration["server"] ?? DEFAULT_SERVER;
-                string port = _configuration["port"] ?? DEFAULT_PORT.ToString();
+                // Read the configuration values from the configuration section.
+                int SamplingRate = int.Parse(_configuration["sample"] ?? DEFAULT_SAMPLE_RATE.ToString());    
+                string Server = _configuration["server"] ?? DEFAULT_SERVER;
+                int Port = int.Parse(_configuration["port"] ?? DEFAULT_PORT.ToString() );
 
-                if(RedisInfoPage is not null ) RedisInfoPage.Url=  $"redis://{server}:{port}" ;
-
-                if (oldSamplingRate != SamplingRate)
+                // Update the properties if they have changed.
+                if (this.SamplingRate != SamplingRate)
                 {
                     // If the sampling rate has changed, reset the timer.
+                    Debug.WriteLine($"Setting configuration for {Name} with sampling rate: {this.SamplingRate} ms");
+                    this.SamplingRate = SamplingRate;
                     SetTimer( _connection?.IsConnected() ?? false );
                 }
 
-                if( oldPort != port || oldServer != server )
+                if( this.Port != Port || this.Server != Server )
                 {
                     // If the server or port has changed, reset the connection.
-                    Debug.WriteLine($"Changing Redis connection to {server}:{port}");
-                    _connection?.Dispose();
-                    _connection = new Connection(server, int.Parse(port));
+                    Debug.WriteLine($"Changing Redis connection to {this.Server}:{this.Port}");
+                    this.Port = Port;   
+                    this.Server = Server;
+                    Connect(); // Reconnect with the new server and port
                 }
 
             }
+        }
+
+        public void Connect()
+        {
+            if (RedisInfoPage is not null) RedisInfoPage.Url = $"redis://{this.Server}:{this.Port}";
+            _connection?.Dispose();
+            _connection = new Connection(this.Server, this.Port);
         }
 
         public RedisPlugin() : base(STANZA)
@@ -82,13 +93,11 @@ namespace RedisPlugin
         {
             int rate = SamplingRate;
 
-            if ( connected is false)
+            if ( connected == false && aTimer?.Interval != DEFAULT_SCAN_RATE)
             {
-                SamplingRate = DEFAULT_SCAN_RATE; // Default reconnection rate
+                rate = DEFAULT_SCAN_RATE; // Default reconnection rate
+                Debug.WriteLine($"Setting timer with interval: {rate} ms");
             }
-
-
-            Debug.WriteLine($"Setting timer with interval: {SamplingRate} ms");
 
             if (aTimer != null)
             {
@@ -98,7 +107,7 @@ namespace RedisPlugin
             }
 
             // Create a timer with a two second interval.
-            aTimer = new System.Timers.Timer(SamplingRate);
+            aTimer = new System.Timers.Timer(rate);
             // Hook up the Elapsed event for the timer. 
             // This event will be raised when the timer interval elapses.
             aTimer.Elapsed += OnTimedEvent;
@@ -110,17 +119,15 @@ namespace RedisPlugin
         #region Event Handlers
         private void OnTimedEvent(object? source, EventArgs e)
         {
+
             // This method is called when the timer elapses.
             // So when the timer ticks we will send some test data
-            if (_connection == null || !_connection.IsConnected())
+            if (_connection == null || _connection.IsConnected() == false )
             {
-                string server = _configuration?["server"] ?? DEFAULT_SERVER;
-                string port = _configuration?["port"] ?? DEFAULT_PORT.ToString();
-                Debug.WriteLine($"Re-Connecting to Redis at {server}:{port}");
+                Debug.WriteLine($"Attempting connecting to Redis at {Server}:{Port}");
                 try
                 {
-                    _connection?.Dispose(); // Dispose of the old connection if it exists
-                    _connection = new Connection(server, int.Parse(port));
+                    Connect();
                 }
                 catch (Exception ex)
                 {

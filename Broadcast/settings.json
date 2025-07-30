@@ -1,5 +1,5 @@
 ﻿{
-  "plugins": "..\\..\\..\\..\\TestPlugin\\bin\\Debug\\net8.0-windows",
+  "plugins": ".",
   "Test": {
     "url": "http://google.com"
   },

@@ -37,7 +37,6 @@ namespace Broadcast
             }
             foreach (string relativePath in pluginPaths)
             {
-                Debug.WriteLine($"Processing plugin: {relativePath}");
                 Assembly assembly = LoadPlugin(relativePath);
 
                 commands.AddRange(CreateCommands(assembly));
@@ -50,7 +49,6 @@ namespace Broadcast
         }
         static Assembly LoadPlugin(string relativePath)
         { 
-            Debug.WriteLine($"Loading commands from: {relativePath}");
             PluginLoadContext loadContext = new(relativePath);
             return loadContext.LoadFromAssemblyName(AssemblyName.GetAssemblyName(relativePath));
         }
@@ -74,14 +72,6 @@ namespace Broadcast
                         Debug.WriteLine($"Failed to create an instance of type: {type.FullName}");
                     }
                 }
-            }
-
-            if (commands.Count == 0)
-            {
-                string availableTypes = string.Join(",", assembly.GetTypes().Select(t => t.FullName));
-                Debug.WriteLine(
-                    $"Can't find any type which implements IPlugin in {assembly} from {assembly.Location}.\n" +
-                    $"Available types: {availableTypes}");
             }
 
             return commands;

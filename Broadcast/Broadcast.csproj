@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net8.0-windows10.0.17763.0</TargetFramework>
+    <TargetFramework>net8.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
@@ -32,7 +32,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\MSFSPlugin\MSFSPlugin.csproj" />
     <ProjectReference Include="..\PluginBase\PluginBase.csproj" />
+    <ProjectReference Include="..\RedisPlugin\RedisPlugin.csproj" />
+    <ProjectReference Include="..\TestPlugin\TestPlugin.csproj" />
   </ItemGroup>
 
 </Project>
