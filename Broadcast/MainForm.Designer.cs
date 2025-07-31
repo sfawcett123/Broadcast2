@@ -86,7 +86,7 @@
 
         #endregion
 
-        private FlowLayoutPanel flowLayoutPanel1;
+        public FlowLayoutPanel flowLayoutPanel1;
         private StatusStrip statusStrip;
         private ToolStripStatusLabel toolStripStatusLabel;
         private Panel panel;

@@ -10,31 +10,17 @@ namespace Broadcast
         {
             InitializeComponent();
 
-            LoadControls( Configuration );
+            StartUp StartUp = new();
+            StartUp.ShowDialog(Configuration , this);
         }
-        private void LoadControls( IConfigurationRoot Configuration)
-        {
-            Debug.WriteLine($"Loading plugins from {Configuration["plugins"]}");
-
-            string[] pluginPaths = Directory.GetFiles(Configuration["plugins"] ?? "./plugins", "*.dll");
-            foreach (var control in Program.ReadDlls(pluginPaths, Configuration))
-            {
-                Debug.WriteLine($"Adding control {control.Name} Configuration {control.Stanza}");
-                flowLayoutPanel1.Controls.Add(control);
-                control.Click += PluginControl_Click;
-                control.DataRecieved += PluginControl_DataReceived;
-            }
-
-            toolStripStatusLabel.Text = $"Loaded {pluginPaths.Length} plugins.";
-        }
-        private void PluginControl_DataReceived(object? sender, PluginEventArgs e)
+        public void PluginControl_DataReceived(object? sender, PluginEventArgs e)
         {
             if (sender is PluginControl c)
             {
                if( e.Icon is not null ) c.Icon = e.Icon;
             }
         }
-        private void PluginControl_Click(object? sender, EventArgs e)
+        public void PluginControl_Click(object? sender, EventArgs e)
         {
             if (sender is PluginControl c)
             {

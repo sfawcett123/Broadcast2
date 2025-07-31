@@ -26,64 +26,6 @@ namespace Broadcast
             ApplicationConfiguration.Initialize();
             Application.Run(new MainForm( Configuration ));
         }
-        static public IEnumerable<PluginControl> ReadDlls(string[] pluginPaths, IConfigurationRoot Configuration)
-        {
-            List<PluginControl> commands = [];
 
-            if (pluginPaths == null || pluginPaths.Length == 0)
-            {
-                Debug.WriteLine("No plugins specified.");
-                return commands;
-            }
-            foreach (string relativePath in pluginPaths)
-            {
-                Assembly assembly = LoadPlugin(relativePath);
-                if (assembly != null)
-                {
-                    commands.AddRange(CreateCommands(assembly));
-                    foreach (IPlugin command in commands)
-                    {
-                        command.Configuration = Configuration.GetSection(command.Stanza);
-                    }
-                }
-            }
-            return commands;
-        }
-        static Assembly LoadPlugin(string relativePath)
-        {
-            try { 
-                PluginLoadContext loadContext = new(relativePath);
-                return loadContext.LoadFromAssemblyName(AssemblyName.GetAssemblyName(relativePath));
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine($"Error loading plugin {relativePath}: {ex.Message}");
-                return null!;
-            }
-        }
-        static List<PluginControl> CreateCommands(Assembly assembly)
-        {
-            List<PluginControl> commands = [];
-
-            foreach (Type type in assembly.GetTypes())
-            {
-                if (typeof(IPlugin).IsAssignableFrom(type) && !type.IsInterface && !type.IsAbstract)
-                {
-                    Debug.WriteLine($"Found type: {type.FullName} which implements IPlugin");
-
-                    // Ensure the instance is not null and handle potential nullability issues
-                    if (Activator.CreateInstance(type) is PluginControl instance)
-                    {
-                        commands.Add(instance);
-                    }
-                    else
-                    {
-                        Debug.WriteLine($"Failed to create an instance of type: {type.FullName}");
-                    }
-                }
-            }
-
-            return commands;
-        }
     }
 }
