@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
-using PluginBase;
-using System.Globalization;
+using SimListener;
 
 namespace MSFSPlugin
 {
@@ -9,6 +8,7 @@ namespace MSFSPlugin
         const string PLUGINNAME = "MSFSPlugin";
         const string STANZA = "MSFS";
         private readonly UserControl? MSFSInfoPage = new MSFSInfo();
+        private readonly Connect sim = new();
         public override UserControl? InfoPage { get => MSFSInfoPage; }
         public override IConfigurationSection? Configuration { get; set; }
 
@@ -18,6 +18,8 @@ namespace MSFSPlugin
             Name = PLUGINNAME;
             Description = "Connect to Microsoft Flight Simulator 2024.";
             Icon = Properties.Resources.red;
+
+            
         }
     }
 }
