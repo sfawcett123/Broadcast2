@@ -37,6 +37,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\APIPlugin\APIPlugin.csproj" />
     <ProjectReference Include="..\MSFSPlugin\MSFSPlugin.csproj" />
     <ProjectReference Include="..\PluginBase\PluginBase.csproj" />
     <ProjectReference Include="..\RedisPlugin\RedisPlugin.csproj" />

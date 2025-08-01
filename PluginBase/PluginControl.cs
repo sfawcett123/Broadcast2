@@ -6,8 +6,8 @@ namespace PluginBase
     public partial class PluginControl : UserControl, IPlugin
     {
         private readonly ToolTip pluginToolTip = new();
-        private string _name = "TestPlugin";
-        private string _description = "Plugin to read and write to a redis cache";
+        private string _name = "BasePlugin";
+        private string _description = "Base Plugin With No Functionality";
         private Image _icon = Properties.Resources.initial;      
 
         public PluginControl( string stanza = "" )
@@ -20,7 +20,6 @@ namespace PluginBase
             pluginToolTip.SetToolTip(this, "No value set");
             Icon = Properties.Resources.initial;
             BackgroundImage = Icon;
-            BackColor = Color.Red;
             BackgroundImageLayout = ImageLayout.Stretch;
             Size = new Size(100, 100);
             InfoPage = new InfoPage();
